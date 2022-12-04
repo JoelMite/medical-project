@@ -194,6 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        //Esta hara que laravel use ese ServiceProvider (ScheduleServiceProvider)
+        App\Providers\ScheduleServiceProvider::class,
 
     ],
 
