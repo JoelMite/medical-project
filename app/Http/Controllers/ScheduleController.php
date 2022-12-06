@@ -82,8 +82,8 @@ class ScheduleController extends Controller
             return back()->with(compact('errors'));
         }
 
-        $notification = 'Los cambios se han guardado correctamente';
-        return back()->with(compact('notification'));
+        $success = 'Los cambios se han guardado correctamente';
+        return back()->with(compact('success'));
     }
 
     /**

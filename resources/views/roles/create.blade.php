@@ -2,8 +2,7 @@
 
 @section('styles')
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
 @endsection
 
@@ -21,20 +20,20 @@
                 Volver</a>
             </div>
           </div>
+          <form action="{{url('roles')}}" method="post">
           <div class="card-body">
-            <form action="{{url('roles')}}" method="post">
               @csrf
               <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <div class="form-group">
                     <label>Nombre del Rol</label>
-                    <input type="text" class="form-control">
+                    <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                   </div>
                 </div>
                 <div class="col-md-8 mb-3">
                   <div class="form-group">
                     <label>Descripción</label>
-                    <input type="text" class="form-control invoice-input">
+                    <input type="text" name="description" class="form-control" value="{{ old('description') }}" required>
                   </div>
                 </div>
                 <div class="col-md-12 mb-6">
@@ -118,16 +117,14 @@
                       </select>
                   </div>
               </div>
-
               </div>
-
           </div>
           <div class="card-footer">
             <button type="submit" class="btn btn-lg btn-success">
               Guardar
             </button>
           </div>
-          </form>
+        </form>
         </div>
       </div>
     </div>
@@ -138,7 +135,7 @@
 @section('scripts')
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
 @if(session('warning'))
   <script>

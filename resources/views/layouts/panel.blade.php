@@ -41,6 +41,7 @@
          'resources/assets/bundles/owlcarousel2/dist/assets/owl.carousel.min.css',
          'resources/assets/bundles/owlcarousel2/dist/assets/owl.theme.default.min.css',
          'resources/assets/bundles/summernote/summernote-bs4.css',
+         'resources/assets/css/custom.css', 
          'resources/assets/css/style.css',
          'resources/assets/css/components.css',
 
@@ -50,7 +51,13 @@
          // 'resources/assets/bundles/select2/dist/css/select2.min.css',
 
          // 'resources/assets/bundles/jquery-selectric/selectric.css',
-         //'resources/assets/css/custom.css'
+
+         'resources/assets/bundles/pretty-checkbox/pretty-checkbox.min.css',
+
+         'resources/assets/bundles/izitoast/css/iziToast.min.css',
+        
+         'resources/assets/bundles/bootstrap-daterangepicker/daterangepicker.css',
+         
          ]) 
 
   <link rel='shortcut icon' type='image/x-icon' href='/favicon-template.ico' />
@@ -70,7 +77,7 @@
             <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
                 <i data-feather="maximize"></i>
               </a></li>
-            <li>
+            {{-- <li>
               <form class="form-inline mr-auto">
                 <div class="search-element">
                   <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
@@ -79,7 +86,7 @@
                   </button>
                 </div>
               </form>
-            </li>
+            </li> --}}
           </ul>
         </div>
         <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
@@ -1932,6 +1939,8 @@
 
 
 <script src=" {{ asset('assets/js/app.min.js') }}"></script>
+<script src=" {{ asset('assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
+<script src=" {{ asset('assets/js/page/toastr.js') }}"></script>
 {{-- <script src=" {{ asset('assets/bundles/chartjs/chart.min.js') }}"></script> --}}
 {{-- <script src=" {{ asset('assets/bundles/owlcarousel2/dist/owl.carousel.min.js') }}"></script> --}}
 {{-- <script src=" {{ asset('assets/bundles/summernote/summernote-bs4.js') }}"></script> --}}

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Specialty;
 
 class DoctorController extends Controller
 {
@@ -34,7 +36,9 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        $specialties = Specialty::all();
+        return view('doctors.create', compact('roles', 'specialties'));
     }
 
     /**

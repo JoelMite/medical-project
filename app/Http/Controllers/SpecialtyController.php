@@ -42,7 +42,17 @@ class SpecialtyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $this->validation($request);
+
+        //  Insertar Especialidad
+        $specialty = new Specialty();
+        $specialty->name = $request->input('name');
+        $specialty->description = $request->input('description');
+        $specialty->save(); // Insertar
+
+        $success = "La especialidad se ha registrado correctamente.";
+        return redirect('/specialties')->with(compact('success'));
     }
 
     /**
@@ -62,9 +72,9 @@ class SpecialtyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specialty $specialty)
     {
-        //
+        return view('specialties.edit', compact('specialty'));
     }
 
     /**
@@ -74,9 +84,17 @@ class SpecialtyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Specialty $specialty)
     {
-        //
+        $this->validation($request);
+
+        //  Editar Especialidad
+        $specialty->name = $request->input('name');
+        $specialty->description = $request->input('description');
+        $specialty->save(); // Editar
+
+        $success = "La especialidad se ha actualizado correctamente.";
+        return redirect('/specialties')->with(compact('success'));
     }
 
     /**
@@ -118,5 +136,19 @@ class SpecialtyController extends Controller
     public function getSpecialties(){
         $specialties = Specialty::all();
         return response()->json($specialties);
+    }
+
+    //  Metodo Validacion
+    private function validation(Request $request){
+        //  Validar a los datos del formulario especialidad a nivel de servidor
+        $rules = [
+          'name' => 'required',
+          'description' => 'required'
+        ];
+        $messages = [
+          'name.required' => 'Es necesario ingresar un nombre.',
+          'description.required' => 'Es necesario ingresar una descripcion.'
+        ];
+        $this->validate($request, $rules, $messages);
     }
 }

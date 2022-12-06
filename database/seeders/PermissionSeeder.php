@@ -194,8 +194,15 @@ class PermissionSeeder extends Seeder
         //permission profile
         // 23
         $permission = Permission::create([
-            'name' => 'Ver Perfil',
-            'slug' => 'profile.show',
+            'name' => 'Ver Perfil Paciente',
+            'slug' => 'profilepatient.show',
+            'description' => 'El usuario puede ver su perfil.',
+        ]);
+
+        // 24
+        $permission = Permission::create([
+            'name' => 'Ver Perfil Médico',
+            'slug' => 'profiledoctor.show',
             'description' => 'El usuario puede ver su perfil.',
         ]);
 

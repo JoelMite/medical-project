@@ -56,6 +56,30 @@
 
 <script src="{{ asset('/js/datatable/table.js') }}"></script>
 
+@if(session('warning'))
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
+@endif
+
+@if(session('success'))
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
+      });
+
+    </script>
+@endif
+
 @vite([
 'resources/js/app.js',
 'resources/assets/js/scripts.js',

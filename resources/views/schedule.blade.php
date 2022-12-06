@@ -12,32 +12,11 @@
             <div class="card-header">
               <h4>Gestionar Horario</h4>
               <div class="card-header-action">
-                <button type="submit" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>
+                <button type="submit" class="btn btn-icon icon-left btn-success"><i class="far fa-edit"></i>
                   Guardar
                   </a>
               </div>
             </div>
-
-            @if(session('notification'))
-            <div class="card-body">
-              <div class="alert alert-success" role="alert">
-                {{ session('notification') }}
-              </div>
-            </div>
-            @endif
-
-            @if(session('errors'))
-            <div class="card-body">
-              <div class="alert alert-danger" role="alert">
-                Los cambios se han guardado pero tener en cuenta que:
-                <ul>
-                  @foreach (session('errors') as $error)
-                  <li>{{ $error }}</li>
-                  @endforeach
-                </ul>
-              </div>
-            </div>
-            @endif
 
             <div class="card-body">
               <div class="table-responsive">
@@ -56,7 +35,14 @@
                     <tr>
                       <th class="text-center">{{ $days[$key] }}</th>
                       <td class="text-center">
-                        <input type="checkbox" name="active[]" value="{{ $key }}" @if($workDay->active) checked @endif>
+                        <div class="pretty p-icon p-smooth">
+                        <input type="checkbox" name="active[]" value="{{ $key }}" @if($workDay->active) checked
+                          @endif/>
+                          <div class="state p-success">
+                            <i class="icon material-icons">done</i>
+                            <label></label>
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="row">
@@ -111,7 +97,6 @@
               </div>
             </div>
           </div>
-
         </form>
       </div>
     </div>
@@ -122,6 +107,30 @@
 @section('scripts')
 
 <script src="{{ asset('/js/datatable/table.js') }}"></script>
+
+@if(session('warning'))
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
+@endif
+
+@if(session('success'))
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
+      });
+
+    </script>
+@endif
 
 @vite([
 'resources/js/app.js',
