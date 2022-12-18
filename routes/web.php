@@ -9,6 +9,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ClinicHistoryController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MedicalConsultationController;
+use App\Http\Controllers\PdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,7 @@ Route::delete('/roles/{role}', [RoleController::class, 'destroy']); // Eliminar 
 
 // Appointment Medicals
 Route::get('/medical_appointments/create', [MedicalAppointmentController::class, 'create']);
+Route::post('/medical_appointments', [MedicalAppointmentController::class, 'store']);
 
 // Doctors
 Route::get('/doctors', [DoctorController::class, 'index']);
@@ -63,11 +65,12 @@ Route::delete('/doctors/{doctor}', [DoctorController::class, 'destroy']); // Eli
 
 // Clinic Histories
 Route::get('/clinic_histories', [ClinicHistoryController::class, 'index']);
-Route::get('/clinic_histories/create', [ClinicHistoryController::class, 'create']); // Formulario de historias clinicas
+Route::get('/clinic_histories/{user}/create', [ClinicHistoryController::class, 'create']); // Formulario de historias clinicas
 Route::get('/clinic_histories/{histories}/edit', [ClinicHistoryController::class, 'edit']); // Formulario de Edicion de historias clinicas
 Route::post('/clinic_histories', [ClinicHistoryController::class, 'store']); // Envio del Formulario de historias clinicas
 Route::put('/clinic_histories/{histories}', [ClinicHistoryController::class, 'update']); // Editar una historia clinica
 Route::delete('/clinic_histories/{histories}', [ClinicHistoryController::class, 'destroy']); // Eliminar una historia clinica
+Route::get('/clinic_histories/{history}', [ClinicHistoryController::class, 'show']); // Mostrar un HC
 
 // Calendario
 Route::get('/schedule', [ScheduleController::class, 'edit']);
@@ -81,3 +84,31 @@ Route::get('medical_appointments/get/hours', [ScheduleController::class, 'hours'
 // Consulta Medica
 Route::get('/medical_consultations', [MedicalConsultationController::class, 'index']);
 Route::get('/medical_consultations_show', [MedicalConsultationController::class, 'index_show']);
+Route::get('/medical_consultations/{person}/create', [MedicalConsultationController::class, 'create']);
+Route::post('/medical_consultations', [MedicalConsultationController::class, 'store']);
+
+// Gestion de Citas Medicas Vue
+Route::get('/appointment_medicals_patient', [MedicalAppointmentController::class, 'indexPatient']);
+Route::get('/appointment_medicals_doctor', [MedicalAppointmentController::class, 'indexDoctor']);
+Route::get('/indexpendingAppointments', [MedicalAppointmentController::class, 'indexPendingAppointments']);
+Route::get('/indexconfirmedAppointments', [MedicalAppointmentController::class, 'indexConfirmedAppointments']);
+Route::get('/indexoldAppointments', [MedicalAppointmentController::class, 'indexOldAppointments']);
+
+Route::get('/appointment_medicals/{appointment}/cancel', [MedicalAppointmentController::class, 'showCancelForm']);
+Route::post('/appointment_medicals/{appointment}/cancel', [MedicalAppointmentController::class, 'postCancel']);
+Route::post('/appointment_medicals/{appointment}/confirm', [MedicalAppointmentController::class, 'postConfirm']);
+Route::post('/appointment_medicals/{appointment}/attend', [MedicalAppointmentController::class, 'postAttend']);
+
+// Ruta de Prueba para probarlo con vue
+Route::get('/indexpendingAppointments', [MedicalAppointmentController::class, 'indexPendingAppointments']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/indexconfirmedAppointments', [MedicalAppointmentController::class, 'indexConfirmedAppointments']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/indexoldAppointments', [MedicalAppointmentController::class, 'indexOldAppointments']);
+
+
+// PDF View Consultas Medicas
+Route::get('/medical_consultations_pdf/{medical_consultations}', [PdfController::class, 'show']);
+// PDF Download Consultas Medicas
+Route::get('/medical_consultations_export_pdf/{medical_consultations}', [PdfController::class, 'export']);
+

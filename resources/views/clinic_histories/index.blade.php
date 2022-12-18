@@ -9,6 +9,7 @@
         <div class="card">
           <div class="card-header">
             <h4>Historias Clínicas</h4>
+            
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -32,10 +33,10 @@
                       {{ $person->lastname }}
                     </td>
                     <td>
-                      <a href="{{ url('/histories/'.$person->history_clinic->id.'/edit') }}"
-                        class="btn btn-sm btn-primary mr-2">Editar HC</a>
-                      <a href="{{ url('/histories/'.$person->history_clinic->id) }}" class="btn btn-sm btn-warning">Ver
-                        HC</a>
+                      <a href="{{ url('/clinic_histories/'.$person->clinic_history->id.'/edit') }}"
+                        class="btn btn-sm btn-primary m-1">Editar Historia Clínica</a>
+                      <a href="{{ url('/clinic_histories/'.$person->clinic_history->id) }}" class="btn btn-sm btn-warning m-1">Ver
+                        Historia Clínica</a>
                     </td>
                   </tr>
                   @endforeach
@@ -49,8 +50,8 @@
                       {{ $person->lastname }}
                     </td>
                     <td>
-                      <a href="{{ url('histories/'.$person->user_id.'/create') }}" class="btn btn-sm btn-success">Crear
-                        HC</a>
+                      <a href="{{ url('clinic_histories/'.$person->user_id.'/create') }}" class="btn btn-sm btn-success m-1">Crear
+                        Historia Clínica</a>
                     </td>
                   </tr>
                   @endforeach
@@ -68,6 +69,30 @@
 @section('scripts')
 
 <script src="{{ asset('/js/datatable/table.js') }}"></script>
+
+@if(session('warning'))
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
+@endif
+
+@if(session('success'))
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
+      });
+
+    </script>
+@endif
 
 @vite([
 'resources/js/app.js',

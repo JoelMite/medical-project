@@ -37,10 +37,10 @@
                                         </td>
                                         <td>
                                             <a href="{{ url('medical_consultations_pdf/'.$person->medical_consultations_id) }}"
-                                                target="_blank" class="btn btn-sm btn-warning">Ver Consulta Médica
+                                                target="_blank" class="btn btn-sm btn-warning m-1">Ver Consulta Médica
                                                 PDF</a>
                                             <a href="{{ url('medical_consultations_export_pdf/'.$person->medical_consultations_id) }}"
-                                                target="_blank" class="btn btn-sm btn-success">Exportar Consulta Médica
+                                                target="_blank" class="btn btn-sm btn-success m-1">Exportar Consulta Médica
                                                 PDF</a>
                                         </td>
                                     </tr>

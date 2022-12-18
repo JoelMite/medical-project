@@ -93,6 +93,8 @@ class MedicalAppointment extends Model
     	'schedule_time',
     	'type'
     ]);
+
+    //return dd($request);
     $data['patient_id'] = $patient_id;
 
     $clinic_history_id = ClinicHistory::whereHas('person', function($query){

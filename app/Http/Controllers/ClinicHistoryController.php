@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Person;
+use App\Models\User;
+use App\Models\ClinicHistory;
+use Session;
 
 class ClinicHistoryController extends Controller
 {
@@ -28,7 +31,7 @@ class ClinicHistoryController extends Controller
               $query->where('name','=','Crear Cita Médica');
             });
           });
-        })->with('history_clinic:person_id,id')->get(['id', 'name', 'lastname']);
+        })->with('clinic_history:person_id,id')->get(['id', 'name', 'lastname']);
   
         $nohavePersonHistory = Person::doesntHave('clinic_history')->whereHas('user', function($query){ //  Me devuelve solo usuarios asociados al rol administrador y medico
           $query->where('creator_id','=',auth()->id())
@@ -48,9 +51,14 @@ class ClinicHistoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+
+      $person_id = $user->person->id;
+
+      Session::flash('person_id', "$person_id");
+
+      return view('clinic_histories.create');
     }
 
     /**
@@ -61,7 +69,21 @@ class ClinicHistoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $this->validation($request);
+
+      $person_id = session('person_id');
+
+      $history = ClinicHistory::create([
+
+        'personal_history' => $request['personal_history'],
+        'family_background' => $request['family_background'],
+        'current_illness' => $request['current_illness'],
+        'habits' => $request['habits'],
+        'person_id' => $person_id
+      ]);
+
+      $success = "Se ha registrado correctamente la historia clínica.";
+      return redirect('/clinic_histories')->with(compact('success'));
     }
 
     /**
@@ -70,9 +92,9 @@ class ClinicHistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ClinicHistory $history)
     {
-        //
+      return view('clinic_histories.show', compact('history')); 
     }
 
     /**
@@ -107,5 +129,29 @@ class ClinicHistoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    //  Metodo Validacion
+    private function validation(Request $request){
+      //  Validar a los datos del formulario doctor a nivel de servidor
+
+      // $history_id = session('history_id');
+
+      $rules = [
+        'personal_history' => 'required',
+        'family_background' => 'required',
+        'current_illness' => 'required',
+        'habits' => 'required',
+        //Rule::unique('history_clinics')->ignore($history_id),
+        //unique:history_clinics,person_id
+      ];
+      $messages = [
+        'personal_history.required' => 'Es necesario ingresar los antecedentes personales.',
+        'family_background.required' => 'Es necesario ingresar los antecedentes familiares.',
+        'current_illness.required' => 'Es necesario ingresar la enfermedad actual.',
+        'habits.required' => 'Es necesario ingresar los hábitos actuales.',
+        //'person_id.unique' => 'Este paciente ya tiene una historia clínica registrada.',
+      ];
+      $this->validate($request, $rules, $messages);
     }
 }

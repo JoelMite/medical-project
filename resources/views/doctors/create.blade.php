@@ -20,8 +20,9 @@
                                 Volver</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                    <form class="needs-validation" action="{{url('doctors')}}" method="post">
+                    
+                    <form action="{{url('doctors')}}" method="post">
+                        <div class="card-body">
                         @csrf
                         <div class="accordion" id="acordeon-01">
                             <!-- Primer elemento hijo-->
@@ -291,15 +292,18 @@
                                 </div>
                             </div>
                         </div>
-                        
-                    </form>
-                    
                     </div>
+
                     <div class="card-footer">
                         <button type="submit" class="btn btn-success">
                             Guardar
                         </button>
                     </div>
+                        
+                    </form>
+                    
+                    
+                    
                 </div>
             </div>
         </div>

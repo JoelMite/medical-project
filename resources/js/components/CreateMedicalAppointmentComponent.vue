@@ -28,7 +28,7 @@
             
             <div class="input-group">
                     
-                    <date-picker input-class ="form-control class-date"  id="schedule_date" name="schedule_date" @change="loadHours" placeholder="Seleccionar fecha" v-model:value="selected_date" value-type="format" format="YYYY-MM-DD"></date-picker>
+                    <date-picker input-class ="form-control class-date" :input-attr="{name: 'schedule_date', id: 'schedule_date'}" @change="loadHours" placeholder="Seleccionar fecha" v-model:value="selected_date" value-type="format" format="YYYY-MM-DD"></date-picker>
                 
             </div>
             

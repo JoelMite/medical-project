@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('type_of_exam'); //
             $table->string('quantity'); //
-            $table->string('assessment'); //
-            $table->string('observations_pru'); //
+            $table->text('assessment'); //
+            $table->text('observations_pru'); //
             $table->unsignedBigInteger('medical_consultation_id');
             $table->foreign('medical_consultation_id')->references('id')->on('medical_consultations');
             $table->timestamps();

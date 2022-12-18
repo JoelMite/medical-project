@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('medical_prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('description'); //
-            $table->string('posology'); //
-            $table->string('observations_pres'); //
+            $table->text('description'); //
+            $table->text('posology'); //
+            $table->text('observations_pres'); //
             $table->unsignedBigInteger('medical_consultation_id');
             $table->foreign('medical_consultation_id')->references('id')->on('medical_consultations');
             $table->timestamps();

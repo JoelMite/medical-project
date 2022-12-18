@@ -40,21 +40,21 @@
                     </td>
                     <td>
                       @foreach ($doctor->roles as $role)
-                      <span class="badge badge-success badge-shadow">{{ $role->name }}</span>
+                      <span class="badge badge-success badge-shadow m-1">{{ $role->name }}</span>
                       @endforeach
                     </td>
                     <td>
                       @foreach ($doctor->specialties as $specialty)
-                      <span class="badge badge-info badge-shadow">{{ $specialty->name }}</span>
+                      <span class="badge badge-info badge-shadow m-1">{{ $specialty->name }}</span>
                       @endforeach
                     </td>
                     <td>
-                      <a href="{{ url('/doctors/'.$doctor->id.'/edit') }}" class="btn btn-sm btn-primary mr-2">Editar</a>
-                      <a href="{{ url('/doctors/'.$doctor->id) }}" class="btn btn-sm btn-warning mr-2">Ver</a>
+                      <a href="{{ url('/doctors/'.$doctor->id.'/edit') }}" class="btn btn-sm btn-primary m-1">Editar</a>
+                      <a href="{{ url('/doctors/'.$doctor->id) }}" class="btn btn-sm btn-warning m-1">Ver</a>
                       @if($doctor->state == '403')
-                      <a href="{{ url('/doctors/'.$doctor->id.'/state') }}" class="btn btn-sm btn-success mr-2">Activar</a>
+                      <a href="{{ url('/doctors/'.$doctor->id.'/state') }}" class="btn btn-sm btn-success m-1">Activar</a>
                       @elseif($doctor->state == '200')
-                      <a href="{{ url('/doctors/'.$doctor->id.'/state') }}" class="btn btn-sm btn-danger mr-2">Banear</a>
+                      <a href="{{ url('/doctors/'.$doctor->id.'/state') }}" class="btn btn-sm btn-danger m-1">Banear</a>
                       @endif
 
                     </td>

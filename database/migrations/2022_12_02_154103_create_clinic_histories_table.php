@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('clinic_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('personal_history'); //  Antecedentes Personales
-            $table->string('family_background'); // Antecedentes Familiares
-            $table->string('current_illness'); // Enfermedad Actual
-            $table->string('habits'); //Habitos
+            $table->text('personal_history'); //  Antecedentes Personales
+            $table->text('family_background'); // Antecedentes Familiares
+            $table->text('current_illness'); // Enfermedad Actual
+            $table->text('habits'); //Habitos
             $table->unsignedBigInteger('person_id')->unique();
             $table->foreign('person_id')->references('id')->on('persons');
             $table->timestamps();

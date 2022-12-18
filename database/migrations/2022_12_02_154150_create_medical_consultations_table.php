@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('medical_consultations', function (Blueprint $table) {
             $table->id();
-            $table->string('reason'); //
-            $table->string('diagnosis'); //
-            $table->string('observations'); //
+            $table->text('reason'); //
+            $table->text('diagnosis'); //
+            $table->text('observations'); //
             $table->string('blood_pressure'); //
             $table->string('heart_rate'); //
             $table->string('breathing_frequency'); //

@@ -25,7 +25,7 @@
               </ul>
             </div>
           @endif --}}
-          <form action="{{url('appointment_medicals')}}" method="post">
+          <form action="{{url('medical_appointments')}}" method="post">
             @csrf
 
             <div class="form-group">

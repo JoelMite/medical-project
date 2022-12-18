@@ -269,13 +269,13 @@
 
             <li><a class="nav-link" href="/schedule"><i data-feather="calendar"></i><span>Gestionar Horario</span></a></li>
 
-            <li><a class="nav-link" href="blank.html"><i data-feather="archive"></i><span>Mis citas (Doctor)</span></a></li>
+            <li><a class="nav-link" href="/appointment_medicals_doctor"><i data-feather="archive"></i><span>Mis citas (Doctor)</span></a></li>
 
             <li><a class="nav-link" href="blank.html"><i data-feather="user"></i><span>Mis Pacientes</span></a></li>
 
             <li><a class="nav-link" href="/medical_appointments/create"><i data-feather="edit"></i><span>Reservar Cita</span></a></li>
 
-            <li><a class="nav-link" href="blank.html"><i data-feather="archive"></i><span>Mis citas (Paciente)</span></a></li>
+            <li><a class="nav-link" href="/appointment_medicals_patient"><i data-feather="archive"></i><span>Mis citas (Paciente)</span></a></li>
 
             <li><a class="nav-link" href="{{ route('logoutUser') }}"><i data-feather="log-out"></i><span>Cerrar Sesión</span></a></li>
 

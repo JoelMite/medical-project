@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('medical_appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->text('description');
 
             $table->unsignedBigInteger('specialty_id');
 
