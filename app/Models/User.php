@@ -56,4 +56,8 @@ class User extends Authenticatable
     public function specialties(){
         return $this->belongsToMany(Specialty::class)->withTimestamps();
     }
+
+    public function asPatientAppointments(){
+        return $this->hasMany(AppointmentMedical::class, 'patient_id');
+    }
 }
