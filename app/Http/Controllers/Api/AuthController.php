@@ -65,19 +65,21 @@ class AuthController extends Controller
       //$patient = Auth::user()->havePermission('appointmentmedical.create');
       
 
-      $tokenResult = $user->createToken('Personal Access Token');
+      $tokenResult = $user->createToken('Personal Access Token')->plainTextToken;
 
-      $token = $tokenResult->token;
+      //$tokenResult->save();  
+
+      //$token = $tokenResult->token;
       // if ($request->remember_me)
       //     $token->expires_at = Carbon::now()->addWeeks(1);
-      $token->save();
+      //$token->save();
 
-      $access_token = $tokenResult->accessToken;
+      //$access_token = $tokenResult;
       $success = true;
       //$rols = $user->rols;                //  Me devuelve el rol que cumple cada usuario(medico o administrador)
       //$persons = $user->persons;
 
-      return compact('user', 'name', 'access_token', 'success');
+      return compact('user', 'name', 'tokenResult', 'success');
 
   }
 
@@ -86,8 +88,8 @@ class AuthController extends Controller
    */
   public function logout(Request $request)
   {
-      $request->user()->token()->revoke();
-      //$request->user()->tokens()->delete();
+      //$request->user()->token()->revoke();
+      $request->user()->tokens()->delete();
 
       return response()->json([
           'message' => 'Successfully logged out'
