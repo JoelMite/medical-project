@@ -64,8 +64,9 @@ class AuthController extends Controller
       $name = User::find(auth()->id())->person->name;
       //$patient = Auth::user()->havePermission('appointmentmedical.create');
       
+      $patient = true;
 
-      $tokenResult = $user->createToken('Personal Access Token')->plainTextToken;
+      $access_token = $user->createToken('Personal Access Token')->plainTextToken;
 
       //$tokenResult->save();  
 
@@ -79,7 +80,7 @@ class AuthController extends Controller
       //$rols = $user->rols;                //  Me devuelve el rol que cumple cada usuario(medico o administrador)
       //$persons = $user->persons;
 
-      return compact('user', 'name', 'tokenResult', 'success');
+      return compact('user', 'name', 'patient', 'access_token', 'success');
 
   }
 

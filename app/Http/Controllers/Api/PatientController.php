@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
 
     public function show()
     {
-        return Auth::guard('api')->user()->person()->first();
+        return auth()->user()->person()->first();
     }
 
     public function update(Request $request)
