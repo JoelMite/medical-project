@@ -20,13 +20,14 @@ use App\Http\Controllers\Api\AppointmentController;
 */
 
 Route::namespace('Api')->group(function () {
-    // Recursos Publicos -- Rutas Publicas
+    // Rutas Publicas
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('signup', [AuthController::class, 'signUp']);
+    // Route::post('signup', [AuthController::class, 'signUp']);
     Route::get('specialties', [SpecialtyController::class, 'index']);
     Route::get('specialties/{specialty}/doctors', [SpecialtyController::class, 'doctors']);
     Route::get('schedule/hours', [ScheduleController::class, 'hours']);
 
+    // Rutas Privadas
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('person', [PatientController::class, 'show']);
@@ -40,7 +41,6 @@ Route::namespace('Api')->group(function () {
         // FCM
         //Route::post('/fcm/token', 'FirebaseController@postToken');
     });
-    
     
 });
 

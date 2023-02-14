@@ -11,6 +11,9 @@ import CreateMedicalConsultationComponent from '@/components/CreateMedicalConsul
 import TableConfirmedAppointmentComponent from '@/components/TableConfirmedAppointmentComponent.vue'
 import TableOldAppointmentComponent from '@/components/TableOldAppointmentComponent.vue'
 import TablePendingAppointmentComponent from '@/components/TablePendingAppointmentComponent.vue'
+import HomeDashboardAdministratorComponent from '@/components/HomeDashboardAdministratorComponent.vue'
+import HomeDashboardDoctorComponent from '@/components/HomeDashboardDoctorComponent.vue'
+import HomeDashboardPatientComponent from '@/components/HomeDashboardPatientComponent.vue'
 
 import mitt from 'mitt';
 const emitter = mitt();
@@ -24,7 +27,9 @@ app.component('CreateMedicalConsultationComponent', CreateMedicalConsultationCom
 app.component('TableConfirmedAppointmentComponent', TableConfirmedAppointmentComponent)
 app.component('TableOldAppointmentComponent', TableOldAppointmentComponent)
 app.component('TablePendingAppointmentComponent', TablePendingAppointmentComponent)
-
+app.component('HomeDashboardAdministratorComponent', HomeDashboardAdministratorComponent)
+app.component('HomeDashboardDoctorComponent', HomeDashboardDoctorComponent)
+app.component('HomeDashboardPatientComponent', HomeDashboardPatientComponent)
 
 app.mount("#app")
 

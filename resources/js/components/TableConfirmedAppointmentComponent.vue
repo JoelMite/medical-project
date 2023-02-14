@@ -197,7 +197,7 @@ export default {
         getAppointments() {
             axios.get('indexconfirmedAppointments').then(response => {
                 this.confirmedAppointments = response.data;
-                //$('#datatable-confirm').DataTable().destroy();
+                // $('#datatable-confirm').DataTable().retrieve();
                 this.mytable()
                 if (this.confirmedAppointments[0].patient) {
                     this.role_patient = false;

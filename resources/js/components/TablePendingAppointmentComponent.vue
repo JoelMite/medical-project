@@ -208,7 +208,7 @@ export default {
         getAppointments() {
             axios.get('indexpendingAppointments').then(response => {
                 this.pendingAppointments = response.data;
-                //$('#datatable-pending').DataTable().destroy();
+                // $('#datatable-pending').DataTable().retrieve();
                 this.mytable()
                 if (this.pendingAppointments[0].patient) {
                     this.role_patient = false;

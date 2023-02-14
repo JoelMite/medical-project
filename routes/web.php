@@ -9,6 +9,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ClinicHistoryController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MedicalConsultationController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PdfController;
 
 /*
@@ -99,6 +100,14 @@ Route::post('/appointment_medicals/{appointment}/cancel', [MedicalAppointmentCon
 Route::post('/appointment_medicals/{appointment}/confirm', [MedicalAppointmentController::class, 'postConfirm']);
 Route::post('/appointment_medicals/{appointment}/attend', [MedicalAppointmentController::class, 'postAttend']);
 
+// Gestion de Pacientes
+Route::get('/patients', [PatientController::class, 'index']);
+Route::get('/patients/create', [PatientController::class, 'create']); // Formulario de pacientes
+Route::get('/patients/{patient}/edit', [PatientController::class, 'edit']); // Formulario de Edicion de pacientes
+Route::post('/patients', [PatientController::class, 'store']); // Envio del Formulario de pacientes
+Route::put('/patients/{patient}', [PatientController::class, 'update']); // Editar una paciente
+Route::get('/patients/{patient}/state', [PatientController::class, 'state']); // Cambiar a activo o inactivo un paciente
+
 // Ruta de Prueba para probarlo con vue
 Route::get('/indexpendingAppointments', [MedicalAppointmentController::class, 'indexPendingAppointments']);
 // Ruta de Prueba para probarlo con vue
@@ -106,6 +115,21 @@ Route::get('/indexconfirmedAppointments', [MedicalAppointmentController::class, 
 // Ruta de Prueba para probarlo con vue
 Route::get('/indexoldAppointments', [MedicalAppointmentController::class, 'indexOldAppointments']);
 
+// Ruta de Prueba para probarlo con vue
+Route::get('/count_patients', [PatientController::class, 'count_patients']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/pendingAppointments', [MedicalAppointmentController::class, 'pendingAppointments']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/confirmedAppointments', [MedicalAppointmentController::class, 'confirmedAppointments']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/attendedAppointments', [MedicalAppointmentController::class, 'attendedAppointments']);
+
+// Ruta de Prueba para probarlo con vue
+Route::get('/count_users', [DoctorController::class, 'count_users']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/bannedUsers', [DoctorController::class, 'bannedUsers']);
+// Ruta de Prueba para probarlo con vue
+Route::get('/activeUsers', [DoctorController::class, 'activeUsers']);
 
 // PDF View Consultas Medicas
 Route::get('/medical_consultations_pdf/{medical_consultations}', [PdfController::class, 'show']);

@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> --}}
   <title>Sistema de Agendamiento de Citas Medicas</title>
   <!-- General CSS Files -->
   {{-- <link rel="stylesheet" href="assets/css/app.min.css">
@@ -90,9 +90,9 @@
             </li> --}}
           </ul>
         </div>
-        <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
+        {{-- <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> --}}
         <ul class="navbar-nav navbar-right">
-          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+          {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
               class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
               <span class="badge headerBadge1">
                 6 </span> </a>
@@ -152,9 +152,9 @@
                 <a href="#">View All <i class="fas fa-chevron-right"></i></a>
               </div>
             </div>
-          </li>
+          </li> --}}
           
-            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+            {{-- <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
               <div class="dropdown-header">
                 Notifications
                 <div class="float-right">
@@ -198,23 +198,23 @@
               <div class="dropdown-footer text-center">
                 <a href="#">View All <i class="fas fa-chevron-right"></i></a>
               </div>
-            </div>
-          </li>
+            </div> --}}
+          
           <li class="dropdown"><a href="#" data-toggle="dropdown"
-              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{{ asset('assets/img/user.png') }}"
-                class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <i class="
+              fas fa-user-md text-dark"></i> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello Sarah Smith</div>
+              <div class="dropdown-title">Hola {{ auth()->user()->person()->first()->name }}</div>
               <a href="profile.html" class="dropdown-item has-icon"> <i class="far
-										fa-user"></i> Profile
-              </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+										fa-user"></i> Perfil
+              {{-- </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
                 Activities
               </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
                 Settings
-              </a>
+              </a> --}}
               <div class="dropdown-divider"></div>
               <a href="{{ route('logoutUser') }}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
-                Logout
+                Cerrar Sesión
               </a>
             </div>
           </li>
@@ -223,12 +223,12 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html"> <img alt="image" src="{{ asset('assets/img/logo.png') }}" class="header-logo" /> <span
-                class="logo-name">Otika</span>
+            <a href="index.html"> <img alt="image" src="{{ asset('assets/img/estetoscopio 2.png') }}" class="header-logo" /> <span
+                class="logo-name">San Benito</span>
             </a>
           </div>
           <ul class="sidebar-menu">
-            <li class="menu-header">PRINCIPAL</li>
+            <li class="menu-header">MENÚ</li>
             <li class="dropdown">
               <a href="/home" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
@@ -272,7 +272,7 @@
 
             <li><a class="nav-link" href="/appointment_medicals_doctor"><i data-feather="archive"></i><span>Mis citas (Doctor)</span></a></li>
 
-            <li><a class="nav-link" href="blank.html"><i data-feather="user"></i><span>Mis Pacientes</span></a></li>
+            <li><a class="nav-link" href="/patients"><i data-feather="user"></i><span>Mis Pacientes</span></a></li>
 
             <li><a class="nav-link" href="/medical_appointments/create"><i data-feather="edit"></i><span>Reservar Cita</span></a></li>
 
@@ -455,7 +455,7 @@
       </div>
       <!-- Main Content -->
       <div class="main-content">
-        
+        @yield('dashboard')
         @yield('content')
         
         {{-- <section class="section">
@@ -1914,7 +1914,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          <a href="templateshub.net">Templateshub</a></a>
+          <a href="https://web.facebook.com/DraLauraPineda">Consultorio Médico San Benito</a></a>
         </div>
         <div class="footer-right">
         </div>

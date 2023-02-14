@@ -100,9 +100,20 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $doctor)
     {
-        //
+        //$doctor = User::findOrfail($id);
+        $specialties = Specialty::all();
+
+        $specialty_ids = $doctor->specialties()->pluck('specialties.id');   // Me devuelve un array de solo los ids de las especialidades que tienen relacion con usuarios
+        $role_ids = $doctor->roles()->pluck('roles.id');
+
+        // return $role_ids;
+
+        $roles = Role::all();
+        $persons = $doctor->person;
+        return view('doctors.edit', compact('doctor', 'specialties', 'roles', 'persons', 'specialty_ids', 'role_ids'));
+        //return(dd($persons));
     }
 
     /**
@@ -112,21 +123,42 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $doctor)
     {
-        //
+        $this->validation($request);
+
+        $date_birth = Carbon::parse($request['date_birth'])->age;
+
+        $doctor->email = $request->input('email');
+        $password = $request->input('password');
+
+        if ($password)
+        $doctor->password = bcrypt($request->input('password'));
+
+        $doctor->save(); // Editar
+
+        $doctor->specialties()->sync($request->input('specialties'));
+        $doctor->roles()->sync($request->input('roles'));
+
+        $person = $doctor->person;
+
+        $person->name = $request->name;
+        $person->lastname = $request->lastname;
+        $person->dni = $request->dni;
+        $person->phone = $request->phone;
+        $person->address = $request->address;
+        $person->city = $request->city;
+        $person->etnia = $request->etnia;
+        $person->date_birth = $request->date_birth;
+        $person->age = $date_birth;
+        $person->sex = $request->sex;
+
+        $person->save();
+
+        $success = "El usuario se ha actualizado correctamente.";
+        return redirect('/doctors')->with(compact('success'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
      //  Metodo Validacion
      private function validation(Request $request){
@@ -174,4 +206,58 @@ class DoctorController extends Controller
         ];
         $this->validate($request, $rules, $messages);
       }
+
+      public function state(User $doctor)
+    {
+
+      // Gate::authorize('haveaccessUser',[$doctor, 'user.state']);
+
+      //dd($request->all());
+      //$doctor = User::findOrfail($id);
+      if($doctor->state == "403"){
+        $doctor->state = "200";
+        $success = "El usuario a sido activado";
+      }
+      elseif($doctor->state == "200"){
+        $doctor->state = "403";
+        $success = "El usuario a sido baneado";
+      }
+        if ($doctor->save()){ // Editar
+        return redirect('/doctors')->with(compact('success'));
+        // return dd($notification);
+      }
+    }
+
+    public function count_users(){
+
+      // Gate::authorize('haveaccess','administrator.dashboard');
+
+      $user = User::whereHas('roles', function($query){ //  Me devuelve solo usuarios asociados al rol medico
+      $query->where('name', 'Medico')->where('creator_id','=',auth()->id());
+      })->count();
+      return response()->json($user);
+
+    }
+
+    public function activeUsers(){
+
+      // Gate::authorize('haveaccess','administrator.dashboard');
+
+      $user = User::whereHas('roles', function($query){ 
+      $query->where('name', 'Medico')->where('creator_id','=',auth()->id())->where('state', '200');
+      })->count();
+      return response()->json($user);
+
+    }
+
+    public function bannedUsers(){
+
+      // Gate::authorize('haveaccess','administrator.dashboard');
+
+      $user = User::whereHas('roles', function($query){ //  Me devuelve solo usuarios asociados al rol administrador y medico
+      $query->where('name', 'Medico')->where('creator_id','=',auth()->id())->where('state', '403');
+      })->count();
+      return response()->json($user);
+
+    }
 }

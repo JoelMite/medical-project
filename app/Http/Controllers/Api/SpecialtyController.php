@@ -13,11 +13,57 @@ class SpecialtyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+    /**
+    * @OA\Get(
+    *     path="/api/specialties",
+    *     tags={"Specialties"},
+    *     summary="Mostrar todas las especialidades",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Mostrar todos las especialidades disponibles en el sistema."
+    *     ),
+    *     @OA\Response(
+    *         response="default",
+    *         description="Ha ocurrido un error."
+    *     )
+    * )
+    */
+
     public function index()
     {
         return Specialty::all(['id', 'name']);
     }
 
+
+    /**
+ * @OA\Get(
+ * path="/api/specialties/{specialty}/doctors",
+ * summary="Lista de doctores relaciondos con una especialidad",
+ * description="Obtiene todos los doctores que estan relacionados con una especialidad",
+ * operationId="getDoctors",
+ * tags={"Specialties-Doctors"},
+ * @OA\Parameter(
+ *    description="ID de Especialidad",
+ *    in="path",
+ *    name="specialty",
+ *    required=true,
+ *    example="1",
+ *    @OA\Schema(
+ *       type="integer",
+ *       format="int64"
+ *    )
+ * ),
+ * @OA\Response(
+    *         response=200,
+    *         description="Mostrar todos los doctores que estan asociados a una especialidad."
+    *     ),
+    *     @OA\Response(
+    *         response="default",
+    *         description="Ha ocurrido un error."
+    *     )
+ * )
+ */
     public function doctors($id)
     {
       
@@ -38,56 +84,8 @@ class SpecialtyController extends Controller
           $ens []= $en;
         }
 
-        //$doctor = User::findOrfail($user_id_pluck);
-        //$persons = $doctor->person()->get(['name', 'lastname', 'user_id']);
-
         return $ens;
       }
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         //Esta hara que laravel use ese ServiceProvider (ScheduleServiceProvider)
         App\Providers\ScheduleServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
 
     ],
 

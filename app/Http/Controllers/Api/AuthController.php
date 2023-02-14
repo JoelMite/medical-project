@@ -37,9 +37,60 @@ class AuthController extends Controller
   /**
    * Inicio de sesión y creación de token
    */
+   
+    /**
+     * @OA\Post(
+     *  path="/api/login",
+     *   tags={"Login"},
+     *   summary="Login",
+     *   description="Iniciar sesión (crear el token)",
+     *   operationId="login",
+     *
+     *   @OA\Parameter(
+     *      name="email",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *           type="string"
+     *      )
+     *   ),
+     *   @OA\Parameter(
+     *      name="password",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *          type="string"
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=200,
+     *       description="True",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=401,
+     *       description="Unauthenticated"
+     *   ),
+     *   @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     *   @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *)
+     **/
+
+    
   public function login(Request $request)
   {
-    //return $request->only('email','password');
 
     $request->validate([
           'email' => 'required|string|email',
@@ -47,46 +98,62 @@ class AuthController extends Controller
           'remember_me' => 'boolean'
       ]);
 
-      //$credentials = request(['email', 'password']);
-
        $credentials = $request->only('email', 'password');
       //
       if (!Auth::attempt($credentials)){
         $success = false;
-          // return response()->json([
-          //     'message' => 'Unauthorized'
-          // ], 401);
         $message = "Unauthorized";
           return compact('success', 'message');
       }
 
       $user = User::find(auth()->id());
       $name = User::find(auth()->id())->person->name;
-      //$patient = Auth::user()->havePermission('appointmentmedical.create');
       
       $patient = true;
 
       $access_token = $user->createToken('Personal Access Token')->plainTextToken;
 
-      //$tokenResult->save();  
-
-      //$token = $tokenResult->token;
-      // if ($request->remember_me)
-      //     $token->expires_at = Carbon::now()->addWeeks(1);
-      //$token->save();
-
-      //$access_token = $tokenResult;
       $success = true;
-      //$rols = $user->rols;                //  Me devuelve el rol que cumple cada usuario(medico o administrador)
-      //$persons = $user->persons;
 
-      return compact('user', 'name', 'patient', 'access_token', 'success');
+      // return compact('user', 'name', 'patient', 'access_token', 'success');
+
+      return response()->json([
+        'user' => $user,
+        'name' => $name,
+        'patient' => $patient,
+        'access_token' => $access_token,
+        'success' => $success
+    ]);
 
   }
 
   /**
    * Cierre de sesión (anular el token)
    */
+
+
+   /**
+ * @OA\Post(
+ *  path="/api/logout",
+ *  summary="Logout",
+ *  description="Cerrar sesión (anular el token)",
+ *  operationId="authLogout",
+ *  tags={"Logout"},
+ *  security={ {"bearer_token": {} }},
+ *  @OA\Response(
+ *     response=200,
+ *     description="Successfully logged out"
+ *      ),
+ *  @OA\Response(
+ *     response=401,
+ *     description="Returns when user is not authenticated",
+ *     @OA\JsonContent(
+ *        @OA\Property(property="message", type="string", example="Not authorized"),
+ *     )
+ *  )
+ *  )
+ **/
+
   public function logout(Request $request)
   {
       //$request->user()->token()->revoke();
