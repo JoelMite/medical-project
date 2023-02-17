@@ -455,6 +455,11 @@
       </div>
       <!-- Main Content -->
       <div class="main-content">
+    {{--  La @sectiondirectiva, como su nombre lo indica, 
+          define una sección de contenido, mientras que 
+          la @yielddirectiva se usa para mostrar el 
+          contenido de una sección determinada. 
+    --}}
         @yield('dashboard')
         @yield('content')
         

@@ -64,9 +64,9 @@
                   </div> --}}
                 </div>
               </div>
-              <div class="mt-5 text-muted text-center">
+              {{-- <div class="mt-5 text-muted text-center">
                 No tienes cuenta aún? <a href="{{ route('register') }}">Registrate</a>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>

@@ -1,7 +1,9 @@
 @extends('layouts.panel')
 
 @section('content')
-
+{{--  Al definir una vista secundaria, use la 
+      directiva @extends Blade para especificar qué 
+      diseño debe "heredar" la vista secundaria. --}}
 <section class="section">
     <div class="section-body">
         <div class="row">
