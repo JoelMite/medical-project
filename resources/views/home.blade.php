@@ -11,36 +11,33 @@
         <div class="card">
 
 
-          {{-- @can('haveaccess','administrator.dashboard') --}}
+          @can('haveaccess','administrator.dashboard')
           <div class="card-header">
             <h2>Administrador</h2>
           </div>
           <div class="card-body">
             <home-dashboard-administrator-component></home-dashboard-administrator-component>
           </div>
-          {{-- @endcan --}}
+          @endcan
 
-          {{-- @can('haveaccess','patient.dashboard') --}}
+          @can('haveaccess','doctor.dashboard')
           <div class="card-header">
             <h2>Médico</h2>
           </div>
           <div class="card-body">
             <home-dashboard-doctor-component></home-dashboard-doctor-component>
           </div>
-          {{-- @endcan --}}
+          @endcan
 
           {{-- @elseif(auth()->user()->rols()->first()->name == 'Medico') --}}
-
+          @can('haveaccess','patient.dashboard')
           <div class="card-header">
             <h2>Paciente</h2>
           </div>
           <div class="card-body">
-
-            {{-- @can('haveaccess','doctor.dashboard') --}}
-
             <home-dashboard-patient-component></home-dashboard-patient-component>
           </div>
-          {{-- @endcan --}}
+          @endcan
           {{--
           <welcome /> --}}
 

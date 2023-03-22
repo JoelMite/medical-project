@@ -27,7 +27,7 @@
                                 <div class="col-md-8 mb-3">
                                     <div class="form-group">
                                         <label>Descripción</label>
-                                        <input type="text" name="description" class="form-control" value="{{ old('description') }}" required>
+                                        <textarea type="text" rows="5" name="description" class="form-control" value="{{ old('description') }}" required></textarea>
                                     </div>
                                 </div>
                             </div>

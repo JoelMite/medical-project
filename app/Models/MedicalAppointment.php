@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ClinicHistory;
+use App\Models\User;
 
 class MedicalAppointment extends Model
 {
@@ -84,7 +85,7 @@ class MedicalAppointment extends Model
     return (new Carbon($this->created_at))->toDateTimeString(); // 1975-12-25 14:15:16 cambia el formato de la fecha
   }
 
-  static public function createForPatient(Request $request, $patient_id){
+  static public function createForPatient(Request $request, User $patient_id){
     $data = $request->only([
     	'description',
     	'specialty_id',
@@ -95,12 +96,18 @@ class MedicalAppointment extends Model
     ]);
 
     //return dd($request);
-    $data['patient_id'] = $patient_id;
+    $data['patient_id'] = $patient_id->id;
 
-    $clinic_history_id = ClinicHistory::whereHas('person', function($query){
-      $query->where('person_id', '=', auth()->user()->person['id']);
+    $person_id = $patient_id->person->id;
+    //return dd($person_id, $patient_id);
+
+    $clinic_history_id = ClinicHistory::whereHas('person', function($query) use ($person_id) {
+      $query->where('person_id', '=', $person_id);
     })->get()->first();
 
+    //return dd($clinic_history_id);
+    if(!$clinic_history_id)
+      return false;
     //$clinic_history_id = $clinic_history_id[0];
 
     //$clinic_history_id = $clinic_history_id->id;

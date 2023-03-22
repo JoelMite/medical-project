@@ -63,5 +63,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'state' => \App\Http\Middleware\UserStateMiddleware::class,    //  Protege las rutas en caso de que la sesion de un usuario baneado siga activa
     ];
 }

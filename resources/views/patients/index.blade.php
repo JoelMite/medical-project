@@ -36,32 +36,34 @@
                                     <tr scope="row">
 
                                         <td>
-                                            {{ $patient->person->name }}
+                                            {{ $patient->name }}
                                         </td>
                                         <td>
-                                            {{ $patient->person->lastname }}
+                                            {{ $patient->lastname }}
                                         </td>
                                         <td>
-                                            {{ $patient->person->phone }}
+                                            {{ $patient->phone }}
                                         </td>
                                         <td>
-                                            {{ $patient->person->address }}
+                                            {{ $patient->address }}
                                         </td>
                                         <td>
-                                            {{ $patient->person->city }}
+                                            {{ $patient->city }}
                                         </td>
                                         <td>
-                                            <a href="{{ url('/patients/'.$patient->id.'/edit') }}"
+                                            <a href="{{ url('/patients/'.$patient->user_id.'/edit') }}"
                                                 class="btn btn-sm btn-primary m-1">Editar</a>
-                                            <a href="{{ url('/patients/'.$patient->id) }}"
+                                            <a href="{{ url('/patients/'.$patient->user_id) }}"
                                                 class="btn btn-sm btn-warning m-1">Ver</a>
-                                            @if($patient->state == '403')
-                                            <a href="{{ url('/patients/'.$patient->id.'/state') }}"
+                                            @if($patient->user->state == '403')
+                                            <a href="{{ url('/patients/'.$patient->user_id.'/state') }}"
                                                 class="btn btn-sm btn-success m-1">Activar</a>
-                                            @elseif($patient->state == '200')
-                                            <a href="{{ url('/patients/'.$patient->id.'/state') }}"
+                                            @elseif($patient->user->state == '200')
+                                            <a href="{{ url('/patients/'.$patient->user_id.'/state') }}"
                                                 class="btn btn-sm btn-danger m-1">Banear</a>
                                             @endif
+                                            <a href="{{ url('/medical_appointments/'.$patient->user_id.'/create_for_patients') }}"
+                                                class="btn btn-sm btn-info m-1">Agendar Cita</a>
                                         </td>
                                     </tr>
                                     @endforeach

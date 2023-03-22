@@ -134,7 +134,7 @@
                                                     </div>
                                                     <select class="form-control selectpicker" name="specialties[]"
                                                         id="specialties" data-style="btn-warning text-white" multiple
-                                                        title="Seleccione una o varias especialidades" required>
+                                                        title="Seleccione una o varias especialidades">
                                                         @foreach ($specialties as $specialty)
                                                         <option value="{{ $specialty->id }}" {{
                                                             (collect(old('specialties'))->
@@ -327,4 +327,29 @@
 'resources/js/app.js',
 'resources/assets/js/scripts.js',
 ])
+
+@if(session('warning'))
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
+@endif
+
+@if(session('success'))
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
+      });
+
+    </script>
+@endif
+
 @endsection

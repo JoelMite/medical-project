@@ -67,7 +67,12 @@ class LoginController extends Controller
       }else{
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], true)) { // El true me indica que va a tener la sesion guardada durante un año
           
-            return redirect('/');
+          if (Auth::user()->state == "403") {
+            return redirect('/logout');
+          }else{
+            $message = "Su usuario ha sido suspendido. Contáctese con el administrador.";
+            return redirect('/')->with(compact('message'));
+          }
 
         }else{
           $message = "El correo electrónico o la contraseña estan incorrectos.";
@@ -80,6 +85,10 @@ class LoginController extends Controller
     {
       $state = Auth::user()->state;
       Auth::logout();
+      if ($state == "403") {
+        $message = "Su usuario ha sido suspendido. Contáctese con el administrador.";
+        return redirect('/login')->with(compact('message'));
+      }
       return redirect('/');
     }
 }

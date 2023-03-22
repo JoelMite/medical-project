@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Specialty;
 
 class SpecialtyController extends Controller
@@ -20,6 +21,8 @@ class SpecialtyController extends Controller
      
     public function index()
     {
+        Gate::authorize('haveaccess','specialty.index');
+
         $specialties = Specialty::all();
          return view('specialties.index', compact('specialties'));
     }
@@ -31,6 +34,8 @@ class SpecialtyController extends Controller
      */
     public function create()
     {
+        Gate::authorize('haveaccess','specialty.create');
+
         return view('specialties.create');
     }
 
@@ -56,17 +61,6 @@ class SpecialtyController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -74,6 +68,8 @@ class SpecialtyController extends Controller
      */
     public function edit(Specialty $specialty)
     {
+        Gate::authorize('haveaccess','specialty.edit');
+
         return view('specialties.edit', compact('specialty'));
     }
 
@@ -95,17 +91,6 @@ class SpecialtyController extends Controller
 
         $success = "La especialidad se ha actualizado correctamente.";
         return redirect('/specialties')->with(compact('success'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function getDoctors(Request $request){

@@ -33,10 +33,14 @@
                       {{ $person->lastname }}
                     </td>
                     <td>
+                      @can('haveaccess', 'historyclinic.edit')
                       <a href="{{ url('/clinic_histories/'.$person->clinic_history->id.'/edit') }}"
                         class="btn btn-sm btn-primary m-1">Editar Historia Clínica</a>
+                      @endcan
+                      @can('haveaccess', 'historyclinic.show')
                       <a href="{{ url('/clinic_histories/'.$person->clinic_history->id) }}" class="btn btn-sm btn-warning m-1">Ver
                         Historia Clínica</a>
+                      @endcan
                     </td>
                   </tr>
                   @endforeach
@@ -50,8 +54,10 @@
                       {{ $person->lastname }}
                     </td>
                     <td>
+                      @can('haveaccess', 'historyclinic.create')
                       <a href="{{ url('clinic_histories/'.$person->user_id.'/create') }}" class="btn btn-sm btn-success m-1">Crear
                         Historia Clínica</a>
+                      @endcan
                     </td>
                   </tr>
                   @endforeach

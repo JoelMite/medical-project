@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Person;
 use App\Models\ClinicHistory;
 use App\Models\MedicalConsultation;
@@ -17,6 +18,7 @@ class MedicalConsultationController extends Controller
 
     public function index()
     {
+      Gate::authorize('haveaccess','medicalconsultation.index');
 
         $havePersonHistory = Person::has('clinic_history')->whereHas('user', function ($query) { //  Me devuelve solo usuarios asociados al rol administrador y medico
             $query->where('creator_id', '=', auth()->id())
@@ -32,12 +34,15 @@ class MedicalConsultationController extends Controller
 
     public function index_show()
     {
+      Gate::authorize('haveaccess','medicalconsultation.indexShow');
 
       $histories = ClinicHistory::all();
       
       $variable = MedicalConsultation
       ::join("clinic_histories", "clinic_histories.id", "=", "medical_consultations.clinic_history_id")
       ->join("persons", "persons.id", "=", "clinic_histories.person_id")
+      ->join("users", "users.id", "=", "persons.user_id")
+      ->where("users.creator_id", "=", auth()->user()->id)
       ->select("persons.id as id", "persons.name as name", "persons.lastname as lastname", "medical_consultations.created_at as created_at", "medical_consultations.id as medical_consultations_id")
       ->get();
       return view('medical_consultations.index_show', compact('variable'));
@@ -46,6 +51,7 @@ class MedicalConsultationController extends Controller
 
     public function create(Person $person)
     {
+      Gate::authorize('haveaccesscreateMedicalConsultations', [$person, 'medicalconsultation.create']);
 
       $history_id = $person->clinic_history->id;
 

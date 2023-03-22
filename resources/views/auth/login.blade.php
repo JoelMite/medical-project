@@ -12,6 +12,26 @@
                   <h4>Login</h4>
                 </div>
                 <div class="card-body">
+                  @if (session('message'))
+                  <div class="alert alert-danger alert-has-icon">
+                    <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
+                    <div class="alert-body">
+                      <div class="alert-title">Alerta!</div>
+                      {{ session('message') }}
+                    </div>
+                  </div>
+                  @endif
+
+                  @if ($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                      <ul>
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul>
+                    </div>
+                  @endif
+
                   <form method="POST" action="{{ route('loginUserPost') }}" class="needs-validation" novalidate="">
                     @csrf
                     <div class="form-group">

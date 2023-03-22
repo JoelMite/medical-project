@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use App\Models\Person;
 use Carbon\Carbon;
 
 class PatientController extends Controller
@@ -16,12 +18,17 @@ class PatientController extends Controller
     //  Metodo GET Mostrar todos los Usuarios
     public function index(){
 
-        // Gate::authorize('haveaccess','patient.index');
+        Gate::authorize('haveaccess','patient.index');
 
         //$patients =  User::with('rols')->paginate(5);
-        $patients = User::whereHas('roles', function($query){ //  Me devuelve solo usuarios asociados al rol administrador y medico
-        $query->where('name', 'Paciente')->where('creator_id','=',auth()->id());
-        })->get();
+        $patients = Person::has('clinic_history')->whereHas('user', function($query){ //  Me devuelve solo usuarios asociados al rol administrador y medico
+            $query->where('creator_id','=',auth()->id())
+              ->whereHas('roles', function($query){
+                $query->whereHas('permissions', function($query){
+                  $query->where('name','=','Crear Cita Médica');
+                });
+              });
+            })->get(['id', 'name', 'lastname', 'phone', 'address', 'city', 'user_id']);
         
         return view('patients.index', compact('patients'));
         //return redirect(dd($patients));
@@ -31,7 +38,7 @@ class PatientController extends Controller
     //  Metodo GET Abrir Formulario para Crear Nuevos Usuarios (Esencialmente Medicos y Administradores)
     public function create(){
 
-        // Gate::authorize('haveaccess','patient.create');
+        Gate::authorize('haveaccess','patient.create');
 
         return view('patients.create');
     }
@@ -120,13 +127,14 @@ class PatientController extends Controller
     */
     public function show(User $patient)
     {
-
-    
-    // Gate::authorize('haveaccessUser',[$patient, 'patient.index']);
-
+        Gate::authorize('haveaccessUser',[$patient, 'patient.show']);
+       
         $roles = $patient->roles;                //  Me devuelve el rol que cumple cada usuario(medico o administrador)
-        $persons = $patient->person;
-        return view('patients.show', compact('patient', 'roles', 'persons'));
+        $person = $patient->person;
+        $specialties = $patient->specialties;
+        // return dd($roles, $person, $patient);
+
+        return view('patients.show', compact('patient', 'roles', 'specialties', 'person'));
         //return dd($id);
     }
 
@@ -134,7 +142,7 @@ class PatientController extends Controller
     public function edit(User $patient)
     {
 
-    // Gate::authorize('haveaccessUser',[$patient, 'patient.edit']);
+        Gate::authorize('haveaccessUser',[$patient, 'patient.edit']);
 
         // $patient = User::findOrfail($id);
         $time_now = Carbon::now(); // Tiempo Actual
@@ -156,28 +164,18 @@ class PatientController extends Controller
         $rules = [
         'name' => 'required',
         'lastname' => 'required',
-        // 'dni' => 'bail|required|unique:persons,dni|ecuador:ci|digits:10',
-        'dni' => 'bail|required|ecuador:ci|digits:10',
-        // 'email' => 'required|unique:users,email|email',
         'email' => 'required|email',
         'password' => 'nullable|min:6',
         'phone' => 'required|max:15',
         'address' => 'required',
         'city' => 'required',
-        'etnia' => 'required',
         'date_birth' => 'required|date',
-        'sex' => 'required',
 
         ];
         $messages = [
         'name.required' => 'Es necesario ingresar los nombres.',
         'lastname.required' => 'Es necesario ingresar los apellidos.',
-        'dni.required' => 'Es necesario ingresar un DNI.',
-        // 'dni.unique' => 'Este DNI ya se encuentra registrado.',
-        'dni.ecuador' => 'El DNI que ha ingresado es invalido.',
-        'dni.digits' => 'El DNI que tiene que tener exactamente 10 dígitos.',
         'email.required' => 'Es necesario ingresar un correo.',
-        // 'email.unique' => 'Este email ya se encuentra registrado.',
         'email.email' => 'Es necesario ingresar un correo válido.',
         'password.required' => 'Es necesario ingresar una contraseña.',
         'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
@@ -185,10 +183,8 @@ class PatientController extends Controller
         'phone.max' => 'El número telefónico no puede exceder los 15 dígitos.',
         'address.required' => 'Es necesario ingresar una direccion.',
         'city.required' => 'Es necesario ingresar una ciudad.',
-        'etnia.required' => 'Es necesario ingresar una etnia.',
         'date_birth.required' => 'Es necesario ingresar una fecha de nacimiento.',
         'date_birth.date' => 'Es necesario ingresar una fecha de nacimiento válida.',
-        'sex.required' => 'Es necesario ingresar un sexo.',
         ];
         $this->validate($request, $rules, $messages);
 
@@ -225,7 +221,7 @@ class PatientController extends Controller
     public function state(User $patient)
     {
 
-        // Gate::authorize('haveaccessUser',[$patient, 'user.state']);
+        Gate::authorize('haveaccessUser',[$patient, 'user.state']);
 
         //dd($request->all());
         //$doctor = User::findOrfail($id);
@@ -245,7 +241,7 @@ class PatientController extends Controller
 
     public function count_patients(){
 
-        // Gate::authorize('haveaccess','doctor.dashboard');
+         Gate::authorize('haveaccess','doctor.dashboard');
 
             $patients = User::whereHas('roles', function($query){ //  Me devuelve solo usuarios asociados al rol paciente.
             $query->where('name', 'Paciente')->where('creator_id','=',auth()->id());

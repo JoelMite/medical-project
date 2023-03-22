@@ -61,32 +61,26 @@
 ])
 
 @if(session('warning'))
-<script>
-  $.notify({
-    	title: '<strong>Error!</strong><br>',
-    	message: '{{ session('warning') }}'
-    },{
-    	type: 'danger',
-      animate: {
-    		enter: 'animated bounceInDown',
-    		exit: 'animated bounceOutUp'
-  	  }
-    });
-</script>
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
 @endif
 
 @if(session('success'))
-<script>
-  $.notify({
-        title: '<strong>Exito!</strong><br>',
-        message: ' {{ session('success') }} '
-      },{
-        type: 'success',
-        animate: {
-          enter: 'animated fadeInRight',
-          exit: 'animated fadeOutRight'
-        }
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
       });
-</script>
+
+    </script>
 @endif
 @endsection

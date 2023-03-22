@@ -138,7 +138,7 @@
                                                         <select class="form-control selectpicker" name="specialties[]"
                                                             id="specialties" data-style="btn-warning text-white"
                                                             multiple title="Seleccione una o varias especialidades"
-                                                            required>
+                                                            >
                                                             @foreach ($specialties as $specialty)
                                                             <option value="{{ $specialty->id }}">{{ $specialty->name }}
                                                             </option>
@@ -223,7 +223,7 @@
                                                             title="Seleccione una etnia" required>
                                                             <option value="Mestizo">Mestizo</option>
                                                             <option value="Afroamericano">Afroamericano</option>
-                                                            <option value="Indigena">Indigena</option>
+                                                            <option value="Indígena">Indígena</option>
                                                         </select>
                                                         <div class="invalid-feedback">Este campo es obligatorio.</div>
                                                     </div>
@@ -334,4 +334,43 @@
 'resources/js/app.js',
 'resources/assets/js/scripts.js',
 ])
+
+@if(session('warning'))
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
+@endif
+
+@if(session('success'))
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
+      });
+
+    </script>
+@endif  
+
+@if(session('errors'))
+    @foreach ($errors->all() as $error)
+        <script>
+                                
+        iziToast.warning({
+            title: 'Error!',
+            message: '{{ $error }}',
+            position: 'topCenter'
+        });
+        
+    </script>
+    @endforeach
+@endif  
+
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\MedicalAppointmentController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClinicHistoryController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MedicalConsultationController;
@@ -36,6 +37,7 @@ Route::get('/logout', [LoginController::class, 'getLogout'])->name('logoutUser')
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::middleware(['auth', 'state'])->group(function () {
 // Especialidades
 Route::get('/specialties', [SpecialtyController::class, 'index']);
 Route::get('/specialties/create', [SpecialtyController::class, 'create']); // Formulario de Especialidades
@@ -50,10 +52,12 @@ Route::get('/roles/create', [RoleController::class, 'create']); // Formulario de
 Route::get('/roles/{role}/edit', [RoleController::class, 'edit']); // Formulario de Edicion de Roles
 Route::post('/roles', [RoleController::class, 'store']); // Envio del Formulario de Roles
 Route::put('/roles/{role}', [RoleController::class, 'update']); // Editar una Rol
+Route::get('/roles/{role}', [RoleController::class, 'show']); // Visualizar la informacion de un Rol
 Route::delete('/roles/{role}', [RoleController::class, 'destroy']); // Eliminar una Rol
 
 // Appointment Medicals
 Route::get('/medical_appointments/create', [MedicalAppointmentController::class, 'create']);
+Route::get('/medical_appointments/{user}/create_for_patients', [MedicalAppointmentController::class, 'create_appointments_for_patients']);
 Route::post('/medical_appointments', [MedicalAppointmentController::class, 'store']);
 
 // Doctors
@@ -62,13 +66,20 @@ Route::get('/doctors/create', [DoctorController::class, 'create']); // Formulari
 Route::get('/doctors/{doctor}/edit', [DoctorController::class, 'edit']); // Formulario de Edicion de doctores
 Route::post('/doctors', [DoctorController::class, 'store']); // Envio del Formulario de doctores
 Route::put('/doctors/{doctor}', [DoctorController::class, 'update']); // Editar una Doctor
+Route::get('/doctors/{doctor}', [DoctorController::class, 'show']); // Visualizar la informacion de un Usuario
 Route::delete('/doctors/{doctor}', [DoctorController::class, 'destroy']); // Eliminar una Doctor
+Route::get('/doctors/{doctor}/state', [DoctorController::class, 'state']); // Cambiar a activo o inactivo un paciente
+
+// Perfil de Usuario
+Route::get('/user/profile', [ProfileController::class, 'show']);// Ver Perfil de Usuario
+Route::put('/user/{user}', [ProfileController::class, 'update']); // Editar Perfil de Usuario
 
 // Clinic Histories
 Route::get('/clinic_histories', [ClinicHistoryController::class, 'index']);
 Route::get('/clinic_histories/{user}/create', [ClinicHistoryController::class, 'create']); // Formulario de historias clinicas
 Route::get('/clinic_histories/{histories}/edit', [ClinicHistoryController::class, 'edit']); // Formulario de Edicion de historias clinicas
 Route::post('/clinic_histories', [ClinicHistoryController::class, 'store']); // Envio del Formulario de historias clinicas
+Route::put('/clinic_histories/{histories}', [SpecialtyController::class, 'update']); // Editar una Especialidad
 Route::put('/clinic_histories/{histories}', [ClinicHistoryController::class, 'update']); // Editar una historia clinica
 Route::delete('/clinic_histories/{histories}', [ClinicHistoryController::class, 'destroy']); // Eliminar una historia clinica
 Route::get('/clinic_histories/{history}', [ClinicHistoryController::class, 'show']); // Mostrar un HC
@@ -104,6 +115,7 @@ Route::post('/appointment_medicals/{appointment}/attend', [MedicalAppointmentCon
 Route::get('/patients', [PatientController::class, 'index']);
 Route::get('/patients/create', [PatientController::class, 'create']); // Formulario de pacientes
 Route::get('/patients/{patient}/edit', [PatientController::class, 'edit']); // Formulario de Edicion de pacientes
+Route::get('/patients/{patient}', [PatientController::class, 'show']); // Formulario de para ver pacientes
 Route::post('/patients', [PatientController::class, 'store']); // Envio del Formulario de pacientes
 Route::put('/patients/{patient}', [PatientController::class, 'update']); // Editar una paciente
 Route::get('/patients/{patient}/state', [PatientController::class, 'state']); // Cambiar a activo o inactivo un paciente
@@ -136,3 +148,4 @@ Route::get('/medical_consultations_pdf/{medical_consultations}', [PdfController:
 // PDF Download Consultas Medicas
 Route::get('/medical_consultations_export_pdf/{medical_consultations}', [PdfController::class, 'export']);
 
+});

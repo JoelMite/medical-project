@@ -12,22 +12,20 @@
             <div class="collapse" id="contenido-btn-3" aria-labelledby="boton-collapse-3" data-parent="#acordeon-01">
                 <div class="card" v-for="(input_pm, index_pm) in inputs_pm">
                     <div class="card-body">
-                        <label v-show="index_pm == inputs_pm.length - 1">Añadir Item
-                            <button type="button" class="btn btn-secondary" @click="additem_pm()">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </label>
-                        <h4 class="card-title">Item: {{ index_pm + 1 }}
-
-                            <label v-show="index_pm || (!index_pm && inputs_pm.length > 1)"
-                                class="float-right">Eliminar Item
+                        <h5 class="card-title">Prescripción Médica: {{ index_pm + 1 }}
+                        <label v-show="index_pm || (!index_pm && inputs_pm.length > 1)"
+                                class="float-right">
                                 <button type="button" class="btn btn-danger" @click="deleteitem_pm(index_pm)">
                                     <i class="fa fa-times"></i>
                                 </button>
-                            </label>
-                        </h4>
-                        <hr>
-
+                        </label>
+                        </h5>
+                        <label class="" v-show="index_pm == inputs_pm.length - 1">
+                            <button type="button" class="btn btn-success" @click="additem_pm()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </label>
+                        
                         <div class="form-group">
                             <div class="form-row">
 
@@ -61,7 +59,7 @@
         <!-- Cuarto elemento hijo-->
         <div class="form-group">
             <div class="form-group" id="boton-collapse-4">
-                <button class="btn btn-dark btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse"
+                <button class="btn btn-danger btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse"
                     data-target="#contenido-btn-4" aria-expanded="false" aria-controls="contenido-btn-4">Pruebas de
                     Laboratorio<i class="ni ni-check-bold text-white"></i></button>
             </div>
@@ -69,21 +67,23 @@
             <div class="collapse" id="contenido-btn-4" aria-labelledby="boton-collapse-4" data-parent="#acordeon-01">
                 <div class="card" v-for="(input_pl, index_pl) in inputs_pl">
                     <div class="card-body">
-                        <label v-show="index_pl == inputs_pl.length - 1">Añadir Item
-                            <button type="button" class="btn btn-secondary" @click="additem_pl()">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </label>
-                        <h4 class="card-title">Item: {{ index_pl + 1 }}
-
+                        <h5 class="card-title">Pruebas de Laboratorio: {{ index_pl + 1 }}
                             <label v-show="index_pl || (!index_pl && inputs_pl.length > 1)"
-                                class="float-right">Eliminar Item
+                                class="float-right">
                                 <button type="button" class="btn btn-danger" @click="deleteitem_pl(index_pl)">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </label>
-                        </h4>
-                        <hr>
+                        
+                        </h5>
+
+                        <label v-show="index_pl == inputs_pl.length - 1">
+                            <button type="button" class="btn btn-success" @click="additem_pl()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </label>
+                            
+                        
 
                         <div class="form-group">
                             <div class="form-row">

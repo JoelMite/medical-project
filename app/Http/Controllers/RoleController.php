@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Role;
 use App\Models\Permission;
 use Carbon\Carbon;
@@ -19,6 +20,8 @@ class RoleController extends Controller
 
     public function index()
     {
+        Gate::authorize('haveaccess','role.index');
+
         $roles = Role::all();
          return view('roles.index', compact('roles'));
     }
@@ -26,6 +29,8 @@ class RoleController extends Controller
    
     public function create()
     {
+        Gate::authorize('haveaccess','role.create');
+
         $permissions_patient = Permission::where('name', 'LIKE', '%Paciente%')->where('name', 'NOT LIKE', '%Dashboard%')->orWhere('name', 'LIKE', '%Perfil Paciente%')->get(); // 4 resultados
         //$permissions_patient = $permissions_all->where('name', 'LIKE', '%paciente%')->orWhere('name', 'LIKE', '%perfil%')->get(); // 4 resultados
         $permissions_doctor = Permission::where('name', 'LIKE', '%Médico%')->where('name', 'NOT LIKE', '%Dashboard%')->orWhere('name', 'LIKE', '%Perfil Médico%')->orWhere('name', 'LIKE', '%Horario%')->get(); // 6 resultados
@@ -44,7 +49,6 @@ class RoleController extends Controller
     
     //  Metodo POST Insertar Roles
     public function store(Request $request){
-        //dd($request->all());
         $this->validation($request);
   
         //return $request;
@@ -65,6 +69,8 @@ class RoleController extends Controller
    
     public function edit(Role $role)
     {
+        Gate::authorize('haveaccess','role.edit');
+
         $permissions_patient = Permission::where('name', 'LIKE', '%Paciente%')->where('name', 'NOT LIKE', '%Dashboard%')->orWhere('name', 'LIKE', '%Perfil Paciente%')->get(); // 4 resultados
         $permissions_doctor = Permission::where('name', 'LIKE', '%Médico%')->where('name', 'NOT LIKE', '%Dashboard%')->orWhere('name', 'LIKE', '%Perfil Médico%')->orWhere('name', 'LIKE', '%Horario%')->get(); // 6 resultados
         $permissions_role = Permission::where('name', 'LIKE', '%Rol%')->get(); // 4 resultados
@@ -111,7 +117,7 @@ class RoleController extends Controller
 
         $time_now = Carbon::now(); // Tiempo Actual
         $time_update = Carbon::parse($role->created_at)->floatDiffInDays($time_now->toDateTimeString());
-        if ($time_update <= 0.25) { 
+        //if ($time_update <= 0.25) { 
             // Tiempo para actualizar maximo 6 horas
             //return dd($permissions_doctor_id);
             return view('roles.edit', compact('role', 'permissions_patient', 'permissions_doctor',
@@ -119,11 +125,11 @@ class RoleController extends Controller
             'permissions_consultation_appointment_medical', 'permissions_dashboard','permissions_patient_id', 'permissions_doctor_id',
             'permissions_role_id', 'permissions_specialty_id', 'permissions_user_id', 'permissions_history_clinic_id',
             'permissions_consultation_appointment_medical_id', 'permissions_dashboard_id'));
-        }else{
+        //}else{
             $warning = "El rol no se puede actualizar porque ha caducado el limite de tiempo.";
             return redirect('/roles')->with(compact('warning'));
             // return dd($rol);
-        }
+        //}
     }
 
     //  Metodo Validacion
@@ -142,6 +148,60 @@ class RoleController extends Controller
         $this->validate($request, $rules, $messages);
     }
 
+    public function show(Role $role)
+    {
+        Gate::authorize('haveaccess','role.show');
+
+        $permissions_patient = Permission::where('name', 'LIKE', '%Paciente%')->where('name', 'NOT LIKE', '%Dashboard%')->orWhere('name', 'LIKE', '%Perfil Paciente%')->pluck('permissions.name')->toArray(); // 4 resultados
+        $permissions_doctor = Permission::where('name', 'LIKE', '%Médico%')->where('name', 'NOT LIKE', '%Dashboard%')->orWhere('name', 'LIKE', '%Perfil Médico%')->orWhere('name', 'LIKE', '%Horario%')->pluck('permissions.name')->toArray(); // 6 resultados
+        $permissions_role = Permission::where('name', 'LIKE', '%Rol%')->pluck('permissions.name')->toArray(); // 4 resultados
+        $permissions_specialty = Permission::where('name', 'LIKE', '%Especialidad%')->pluck('permissions.name')->toArray(); // 4 resultados
+        $permissions_user = Permission::where('name', 'LIKE', '%Usuario%')->pluck('permissions.name')->toArray(); // 2 resultados
+        $permissions_history_clinic = Permission::where('name', 'LIKE', '%Clínica%')->pluck('permissions.name')->toArray(); // 4 resultados
+        $permissions_consultation_appointment_medical = Permission::where('name', 'LIKE', '%Médica%')->where('name', 'NOT LIKE', '%(Paciente)%')
+        ->where('name', 'NOT LIKE', '%Pacientes%')->pluck('permissions.name')->toArray(); // 9 resultados
+        $permissions_dashboard = Permission::where('name', 'LIKE', '%Dashboard%')->pluck('permissions.name')->toArray(); // 2 resultados
+
+        $permissions_patient_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Paciente%')
+        ->where('name', 'NOT LIKE', '%Dashboard%')
+        ->orWhere('name', 'LIKE', '%Perfil Paciente%');
+        })->pluck('permissions.name')->toArray();
+
+        $permissions_doctor_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Médico%')
+        ->where('name', 'NOT LIKE', '%Dashboard%')
+        ->orWhere('name', 'LIKE', '%Perfil Médico%')
+        ->orWhere('name', 'LIKE', '%Horario%');
+        })->pluck('permissions.name')->toArray();
+
+        $permissions_role_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Rol%');})->pluck('permissions.name')->toArray();
+
+        $permissions_specialty_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Especialidad%');})->pluck('permissions.name')->toArray();
+
+        $permissions_user_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Usuario%');})->pluck('permissions.name')->toArray();
+
+        $permissions_history_clinic_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Clínica%');})->pluck('permissions.name')->toArray();
+
+        $permissions_consultation_appointment_medical_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Médica%')->where('name', 'NOT LIKE', '%(Paciente)%')
+        ->where('name', 'NOT LIKE', '%Pacientes%');})->pluck('permissions.name')->toArray();
+
+        $permissions_dashboard_name = $role->permissions()->where(function ($query) {
+        $query->where('name', 'LIKE', '%Dashboard%');})->pluck('permissions.name')->toArray();
+
+        // return dd($permissions_patient, $permissions_patient_name);
+
+        return view('roles.show', compact('role', 'permissions_patient', 'permissions_doctor',
+            'permissions_role', 'permissions_specialty', 'permissions_user', 'permissions_history_clinic',
+            'permissions_consultation_appointment_medical', 'permissions_dashboard','permissions_patient_name', 'permissions_doctor_name',
+            'permissions_role_name', 'permissions_specialty_name', 'permissions_user_name', 'permissions_history_clinic_name',
+            'permissions_consultation_appointment_medical_name', 'permissions_dashboard_name'));
+    }
     
     public function update(Request $request, Role $role)
     {

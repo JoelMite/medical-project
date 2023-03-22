@@ -9,9 +9,11 @@
         <div class="card">
           <div class="card-header">
             <h4>Roles</h4>
+            @can('haveaccess', 'role.create')
             <div class="card-header-action">
               <a href="{{url('roles/create')}}" class="btn btn-icon icon-left btn-dark"><i class="far fa-file"></i> Nuevo</a>
             </div>
+            @endcan
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -35,8 +37,13 @@
                       {{ $role->description }}
                     </td>
                     <td>
-                        <a href="{{ url('/roles/'.$role->id.'/edit') }}" class="btn btn-primary mr-2">Editar</a>
-                        <a href="#" class="btn btn-warning">Ver</a>
+                        @can('haveaccess', 'role.edit')
+                        <a href="{{ url('/roles/'.$role->id.'/edit') }}" class="btn btn-primary m-1">Editar</a>
+                        @endcan
+                        @can('haveaccess', 'role.show')
+                        <a href="{{ url('/roles/'.$role->id) }}" class="btn btn-warning m-1">Ver
+                        </a>
+                        @endcan
                      
                     </td>
                   </tr>

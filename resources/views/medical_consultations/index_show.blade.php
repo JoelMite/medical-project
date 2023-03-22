@@ -36,12 +36,14 @@
                                             {{ $person->created_at ?? "No hay datos"}}
                                         </td>
                                         <td>
+                                            @can('haveaccess', 'medicalconsultation.indexShow')
                                             <a href="{{ url('medical_consultations_pdf/'.$person->medical_consultations_id) }}"
                                                 target="_blank" class="btn btn-sm btn-warning m-1">Ver Consulta Médica
                                                 PDF</a>
                                             <a href="{{ url('medical_consultations_export_pdf/'.$person->medical_consultations_id) }}"
                                                 target="_blank" class="btn btn-sm btn-success m-1">Exportar Consulta Médica
                                                 PDF</a>
+                                            @endcan
                                         </td>
                                     </tr>
                                     @endforeach

@@ -9,9 +9,11 @@
           <div class="card">
             <div class="card-header">
               <h4>Especialidades</h4>
+              @can('haveaccess', 'specialty.create')
               <div class="card-header-action">
                 <a href="{{url('specialties/create')}}" class="btn btn-icon icon-left btn-dark"><i class="far fa-file"></i> Nuevo</a>
               </div>
+              @endcan
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -35,9 +37,9 @@
                         {{ $specialty->description }}
                       </td>
                       <td>
-                          <a href="{{ url('/specialties/'.$specialty->id.'/edit') }}" class="btn btn-primary mr-2">Editar</a>
-                          <a href="#" class="btn btn-warning">Ver</a>
-                       
+                          @can('haveaccess', 'specialty.edit')
+                          <a href="{{ url('/specialties/'.$specialty->id.'/edit') }}" class="btn btn-primary m-1">Editar</a>
+                          @endcan                      
                       </td>
                     </tr>
                     @endforeach

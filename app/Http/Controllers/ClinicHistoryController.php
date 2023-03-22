@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Person;
 use App\Models\User;
 use App\Models\ClinicHistory;
@@ -23,6 +24,8 @@ class ClinicHistoryController extends Controller
 
     public function index()
     {
+
+      Gate::authorize('haveaccess','historyclinic.index');
 
       $havePersonHistory = Person::has('clinic_history')->whereHas('user', function($query){ //  Me devuelve solo usuarios asociados al rol administrador y medico
         $query->where('creator_id','=',auth()->id())
@@ -53,6 +56,7 @@ class ClinicHistoryController extends Controller
      */
     public function create(User $user)
     {
+      Gate::authorize('haveaccesscreateHistoryClinic', [$user, 'historyclinic.create']);
 
       $person_id = $user->person->id;
 
@@ -94,6 +98,8 @@ class ClinicHistoryController extends Controller
      */
     public function show(ClinicHistory $history)
     {
+      Gate::authorize('haveaccessHistoryClinic',[$history, 'historyclinic.show']);
+
       return view('clinic_histories.show', compact('history')); 
     }
 
@@ -103,9 +109,11 @@ class ClinicHistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ClinicHistory $histories)
     {
-        //
+      Gate::authorize('haveaccessHistoryClinic',[$histories, 'historyclinic.edit']);
+
+      return view('clinic_histories.edit', compact('histories'));
     }
 
     /**
@@ -115,20 +123,17 @@ class ClinicHistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ClinicHistory $histories)
     {
-        //
-    }
+        $this->validation($request);
+        $histories->personal_history = $request->input('personal_history');
+        $histories->family_background = $request->input('family_background');
+        $histories->current_illness = $request->input('current_illness');
+        $histories->habits = $request->input('habits');
+        $histories->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $success = "La historia clínica se ha actualizado correctamente.";
+        return redirect('/clinic_histories')->with(compact('success'));
     }
 
     //  Metodo Validacion

@@ -9,9 +9,11 @@
         <div class="card">
           <div class="card-header">
             <h4>Usuarios</h4>
+            @can('haveaccess', 'doctor.create')
             <div class="card-header-action">
               <a href="{{url('doctors/create')}}" class="btn btn-icon icon-left btn-dark"><i class="far fa-file"></i> Nuevo</a>
             </div>
+            @endcan
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -49,12 +51,20 @@
                       @endforeach
                     </td>
                     <td>
+                      @can('haveaccess', 'doctor.edit')
                       <a href="{{ url('/doctors/'.$doctor->id.'/edit') }}" class="btn btn-sm btn-primary m-1">Editar</a>
+                      @endcan
+                      @can('haveaccess', 'doctor.show')
                       <a href="{{ url('/doctors/'.$doctor->id) }}" class="btn btn-sm btn-warning m-1">Ver</a>
+                      @endcan
                       @if($doctor->state == '403')
+                      @can('haveaccess', 'user.state')
                       <a href="{{ url('/doctors/'.$doctor->id.'/state') }}" class="btn btn-sm btn-success m-1">Activar</a>
+                      @endcan
                       @elseif($doctor->state == '200')
+                      @can('haveaccess', 'user.state')
                       <a href="{{ url('/doctors/'.$doctor->id.'/state') }}" class="btn btn-sm btn-danger m-1">Banear</a>
+                      @endcan
                       @endif
 
                     </td>
@@ -79,5 +89,29 @@
 'resources/js/app.js',
 'resources/assets/js/scripts.js',
 ])
+
+@if(session('warning'))
+  <script>
+
+    iziToast.error({
+        title: 'Error!',
+        message: '{{ session('warning') }}',
+        position: 'topCenter'
+      });
+
+  </script>
+@endif
+
+@if(session('success'))
+    <script>
+    
+      iziToast.success({
+        title: 'Exito!',
+        message: '{{ session('success') }}',
+        position: 'topCenter'
+      });
+
+    </script>
+@endif
 
 @endsection

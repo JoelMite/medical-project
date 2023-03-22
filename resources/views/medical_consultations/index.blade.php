@@ -40,8 +40,10 @@
                             {{ $person->address }}
                         </td>
                         <td>
+                            @can('haveaccess', 'medicalconsultation.create')
                             <a href="{{ url('medical_consultations/'.$person->id.'/create') }}" class="btn btn-sm btn-success">Crear Consulta Médica</a>
-                        </td>
+                            @endcan
+                          </td>
                         </tr>
                     @endforeach
                 </tbody>

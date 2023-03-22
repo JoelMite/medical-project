@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> --}}
   <title>Sistema de Agendamiento de Citas Medicas</title>
   <!-- General CSS Files -->
   {{-- <link rel="stylesheet" href="assets/css/app.min.css">
@@ -205,7 +205,7 @@
               fas fa-user-md text-dark"></i> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
               <div class="dropdown-title">Hola {{ auth()->user()->person()->first()->name }}</div>
-              <a href="profile.html" class="dropdown-item has-icon"> <i class="far
+              <a href="/user/profile" class="dropdown-item has-icon"> <i class="far
 										fa-user"></i> Perfil
               {{-- </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
                 Activities
@@ -223,7 +223,7 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html"> <img alt="image" src="{{ asset('assets/img/estetoscopio 2.png') }}" class="header-logo" /> <span
+            <a href="/home"> <img alt="image" src="{{ asset('assets/img/estetoscopio 2.png') }}" class="header-logo" /> <span
                 class="logo-name">San Benito</span>
             </a>
           </div>
@@ -241,14 +241,21 @@
               </ul>
             </li> --}}
 
+            @can('haveaccess', 'role.index')
             <li><a class="nav-link" href="/roles"><i data-feather="list"></i><span>Roles</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'specialty.index')
             <li><a class="nav-link" href="/specialties"><i data-feather="bookmark"></i><span>Especialidades</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'doctor.index')
             <li><a class="nav-link" href="/doctors"><i data-feather="users"></i><span>Usuarios</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'historyclinic.index')
             <li><a class="nav-link" href="/clinic_histories"><i data-feather="clipboard"></i><span>Historia Clínica</span></a></li>
-
+            @endcan
             {{-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Apps</span></a>
               <ul class="dropdown-menu">
@@ -261,22 +268,36 @@
             <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="folder"></i><span>Consulta Médica</span></a>
               <ul class="dropdown-menu">
+                @can('haveaccess', 'medicalconsultation.create')
                 <li><a class="nav-link" href="/medical_consultations">Crear Consulta Médica</a></li>
+                @endcan
+
+                @can('haveaccess', 'medicalconsultation.indexShow')
                 <li><a class="nav-link" href="/medical_consultations_show">Ver consultas Médicas</a></li>
+                @endcan
               </ul>
             </li>
 
             
-
+            @can('haveaccess', 'schedule.edit')
             <li><a class="nav-link" href="/schedule"><i data-feather="calendar"></i><span>Gestionar Horario</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'appointmentmedicalDoctor.index')
             <li><a class="nav-link" href="/appointment_medicals_doctor"><i data-feather="archive"></i><span>Mis citas (Doctor)</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'patient.index')
             <li><a class="nav-link" href="/patients"><i data-feather="user"></i><span>Mis Pacientes</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'appointmentmedical.create')
             <li><a class="nav-link" href="/medical_appointments/create"><i data-feather="edit"></i><span>Reservar Cita</span></a></li>
+            @endcan
 
+            @can('haveaccess', 'appointmentmedicalPatient.index')
             <li><a class="nav-link" href="/appointment_medicals_patient"><i data-feather="archive"></i><span>Mis citas (Paciente)</span></a></li>
+            @endcan
 
             <li><a class="nav-link" href="{{ route('logoutUser') }}"><i data-feather="log-out"></i><span>Cerrar Sesión</span></a></li>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use App\Models\MedicalConsultation;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -15,6 +16,8 @@ class PdfController extends Controller
   
       public function show(MedicalConsultation $medical_consultations){
 
+        Gate::authorize('haveaccessShowMedicalConsultations',[$medical_consultations, 'medicalconsultation.indexShow']);
+
         //return dd($medical_consultations->clinic_history);
   
         $doctor_id = $medical_consultations->clinic_history->person->user->creator_id;
@@ -24,7 +27,9 @@ class PdfController extends Controller
   
       }
       public function export(MedicalConsultation $medical_consultations){
-  
+        
+        Gate::authorize('haveaccessShowMedicalConsultations',[$medical_consultations, 'medicalconsultation.indexShow']);
+
         $doctor_id = $medical_consultations->clinic_history->person->user->creator_id;
         $data_doctor = User::findOrfail($doctor_id);
   

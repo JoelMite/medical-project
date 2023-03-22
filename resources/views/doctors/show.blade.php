@@ -16,7 +16,7 @@
                     <div class="card-header">
                         <h4>Información del Usuario</h4>
                         <div class="card-header-action">
-                            <a href="{{url('patients')}}" class="btn btn-icon icon-left btn-warning"><i
+                            <a href="{{url('doctors')}}" class="btn btn-icon icon-left btn-warning"><i
                                     class="fas fa-reply"></i>
                                 Volver</a>
                         </div>
@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                         <input type="text" name="email" class="form-control"
-                                            value="{{$patient->email}}" disabled required>
+                                            value="{{$doctor->email}}" disabled required>
                                     </div>
                                 </div>
                             </div>
